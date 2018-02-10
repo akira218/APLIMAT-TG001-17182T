@@ -27,13 +27,15 @@ namespace aplimat_labs
         private const float GRAPH_LIMIT = 15;
         private const int TOTAL_CIRCLE_ANGLE = 360;
 
-        private Vector3 a = new Vector3(15,15,0);
-        private Vector3 b = new Vector3(-2,10,0);
+        //private Vector3 a = new Vector3(15,15,0);
+        //private Vector3 b = new Vector3(-2,10,0);
 
         private const int HEADS = 0;
         private const int TAILS = 7;
         private Randomizer rng = new Randomizer(-20, 20);
         private Randomizer color = new Randomizer(0, 1);
+
+        
         //private Randomizer rng = new Randomizer(HEADS, TAILS);
         public MainWindow()
         {
@@ -53,6 +55,12 @@ namespace aplimat_labs
 
         private CubeMesh myCube = new CubeMesh();
         private Vector3 velocity = new Vector3(1,1,0);
+        private float speed = 2f;
+
+        private Vector3 myVector = new Vector3();
+
+        private Vector3 a = new Vector3(0, 0, 0);
+        private Vector3 b = new Vector3(5, 7, 0);
         
 
         //private List<CubeMesh> myCubes = new List<CubeMesh>();
@@ -61,15 +69,67 @@ namespace aplimat_labs
         private void OpenGLControl_OpenGLDraw(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)
         {
             OpenGL gl = args.OpenGL;
-            this.Title = "Vectors";
+            this.Title = "Light Saber";
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
 
             gl.LoadIdentity();
-            gl.Translate(0.0f, 0.0f, -50.0f);
+            gl.Translate(0.0f, 0.0f, -30.0f);
+
+            myVector = a - b;   
+            gl.Color(0.0f, 0.0f, 1.0f);
+            gl.LineWidth(10);
+            gl.Begin(OpenGL.GL_LINE_STRIP);
+           
+            gl.Vertex(a.x, a.y);
+            gl.Vertex(b.x, b.y);
+            gl.End();
+
+            gl.Color(0.0f, 0.0f, 1.0f);
+            gl.LineWidth(5);
+            gl.Begin(OpenGL.GL_LINE_STRIP);
+            gl.Vertex(a.x, a.y);
+            gl.Vertex(b.x, b.y);
+            gl.End();
+
+            if(Keyboard.IsKeyDown(Key.W))
+            {
+
+                b.x += 1;
+
+
+            }
+
+            if (Keyboard.IsKeyDown(Key.A))
+            {
+
+                b.x += -1;
+
+
+            }
+
+            if (Keyboard.IsKeyDown(Key.S))
+            {
+
+                b.y += 1;
+
+
+            }
+
+            if (Keyboard.IsKeyDown(Key.D))
+            {
+
+                b.y += -1;
+
+
+            }
+
+
+
+            gl.DrawText(0, 1, 0, 1, 1, "Arial", 15, "myVector magnitude is:" + myVector.GetMagnitude());
 
             myCube.Draw(gl);
-            myCube.Position += velocity;
+            myCube.Position += velocity * speed;
 
             if (myCube.Position.x >= 30.0f)
             {
