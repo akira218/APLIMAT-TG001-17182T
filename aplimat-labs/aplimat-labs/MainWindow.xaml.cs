@@ -38,7 +38,7 @@ namespace aplimat_labs
         public MainWindow()
         {
             InitializeComponent();
-            this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
+            //this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
 
             //Vector3 c = a + b;
             //Console.WriteLine("Vector c values: x: " + c.x + " y: " + c.y + " z: " + c.z);
@@ -50,35 +50,68 @@ namespace aplimat_labs
         //private CubeMesh myCube = new CubeMesh(2, 1, 0);
         //private IEnumerable<object> myCubes;
 
-        private List<CubeMesh> myCubes = new List<CubeMesh>();
+
+        private CubeMesh myCube = new CubeMesh();
+        private Vector3 velocity = new Vector3(1,1,0);
+        
+
+        //private List<CubeMesh> myCubes = new List<CubeMesh>();
 
 
         private void OpenGLControl_OpenGLDraw(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)
         {
             OpenGL gl = args.OpenGL;
+            this.Title = "Vectors";
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
 
             gl.LoadIdentity();
-            gl.Translate(0.0f, 0.0f, -100.0f);
+            gl.Translate(0.0f, 0.0f, -50.0f);
 
-            CubeMesh myCube = new CubeMesh();
-            myCube.Position = new Vector3(Gaussian.Generate(0, 15), rng.GenerateInt(),0);
-            myCubes.Add(myCube);
+            myCube.Draw(gl);
+            myCube.Position += velocity;
 
-
-            foreach (var cube in myCubes)
+            if (myCube.Position.x >= 30.0f)
             {
-
-                
-                gl.Color(color.GenerateDouble(), color.GenerateDouble(), color.GenerateDouble());
-                cube.Draw(gl);
-
+                velocity.x = -1;
+              
             }
+
+            if (myCube.Position.x <= -30.0f)
+            {
+                velocity.x = 1;
+              
+            }
+            if (myCube.Position.y >= 20.0f)
+            {
+                velocity.y = -1;
+                
+            }
+
+            if (myCube.Position.y <= -20.0f)
+            {
+                velocity.y = 1;
+                
+            }
+
+
+            //CubeMesh myCube = new CubeMesh();
+            //myCube.Position = new Vector3(Gaussian.Generate(0, 15), rng.GenerateInt(),0);
+            //myCube.Add(myCube);
+
+
+            //foreach (var cube in myCubes)
+            //{
+
+
+            //    gl.Color(color.GenerateDouble(), color.GenerateDouble(), color.GenerateDouble());
+            //    cube.Draw(gl);
+
+            //}
 
             //switch (rng.GenerateInt())
             //{
-             
+
 
             //    case 0:
             //        myCube.Position += new Vector3(0.1f, 0, 0);
@@ -115,10 +148,10 @@ namespace aplimat_labs
 
 
             //}
-            
+
             //myCube.Draw(gl);
 
-           // myCube.Position += new Vector3(0, 1, 0);
+            // myCube.Position += new Vector3(0, 1, 0);
 
             ////gl.Color(0, 1, 0);
             //DrawCartesianPlane(gl); //draw cartesian plane with unit lines
