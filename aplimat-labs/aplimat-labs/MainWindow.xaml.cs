@@ -61,6 +61,13 @@ namespace aplimat_labs
 
         private Vector3 a = new Vector3(0, 0, 0);
         private Vector3 b = new Vector3(5, 7, 0);
+        private Vector3 mousePos = new Vector3();
+        private CubeMesh mover = new CubeMesh(-12, 0, 0);
+        private Vector3 acceleration = new Vector3(0.01, 0, 0);
+        private Vector3 decceleration = new Vector3(-0.01, 0, 0);
+        private Vector3 Stop = new Vector3(0, 0, 0);
+
+        
         
 
         //private List<CubeMesh> myCubes = new List<CubeMesh>();
@@ -74,85 +81,132 @@ namespace aplimat_labs
 
 
             gl.LoadIdentity();
-            gl.Translate(0.0f, 0.0f, -30.0f);
+            gl.Translate(0.0f, 0.0f, -50.0f);
 
-            myVector = a - b;   
-            gl.Color(0.0f, 0.0f, 1.0f);
-            gl.LineWidth(10);
-            gl.Begin(OpenGL.GL_LINE_STRIP);
-           
-            gl.Vertex(a.x, a.y);
-            gl.Vertex(b.x, b.y);
-            gl.End();
-
-            gl.Color(0.0f, 0.0f, 1.0f);
-            gl.LineWidth(5);
-            gl.Begin(OpenGL.GL_LINE_STRIP);
-            gl.Vertex(a.x, a.y);
-            gl.Vertex(b.x, b.y);
-            gl.End();
-
-            if(Keyboard.IsKeyDown(Key.W))
+            mover.Draw(gl);
+            mover.Velocity += acceleration;
+            mover.Velocity.Clamp(2.0f);
+            if (mover.Position.x >= 25.0f)
             {
 
-                b.x += 1;
-
-
-            }
-
-            if (Keyboard.IsKeyDown(Key.A))
-            {
-
-                b.x += -1;
-
-
-            }
-
-            if (Keyboard.IsKeyDown(Key.S))
-            {
-
-                b.y += 1;
-
-
-            }
-
-            if (Keyboard.IsKeyDown(Key.D))
-            {
-
-                b.y += -1;
-
-
-            }
-
-
-
-            gl.DrawText(0, 1, 0, 1, 1, "Arial", 15, "myVector magnitude is:" + myVector.GetMagnitude());
-
-            myCube.Draw(gl);
-            myCube.Position += velocity * speed;
-
-            if (myCube.Position.x >= 30.0f)
-            {
-                velocity.x = -1;
-              
-            }
-
-            if (myCube.Position.x <= -30.0f)
-            {
-                velocity.x = 1;
-              
-            }
-            if (myCube.Position.y >= 20.0f)
-            {
-                velocity.y = -1;
+                mover.Velocity = acceleration ;
+                mover.Velocity = Stop;
+               
                 
-            }
 
-            if (myCube.Position.y <= -20.0f)
-            {
-                velocity.y = 1;
-                
             }
+            
+
+
+
+
+
+
+
+
+            gl.DrawText(20, 20, 1, 0, 0, "Arial", 25, mover.Velocity.x + " ");
+
+            mousePos.Normalize();
+            mousePos *= 10;
+
+            //myVector = a - b;   
+            //gl.Color(0.0f, 0.0f, 1.0f);
+            //gl.LineWidth(10);
+            //gl.Begin(OpenGL.GL_LINE_STRIP);
+
+            //gl.Vertex(a.x, a.y);
+            //gl.Vertex(b.x, b.y);
+            //gl.End();
+
+            //gl.Color(0.0f, 0.0f, 1.0f);
+            //gl.LineWidth(5);
+            //gl.Begin(OpenGL.GL_LINE_STRIP);
+            //gl.Vertex(a.x, a.y);
+            //gl.Vertex(b.x, b.y);
+            //gl.End();
+            //gl.Color(0.0f, 0.0f, 1.0f);
+            //gl.LineWidth(5);
+            //gl.Begin(OpenGL.GL_LINE_STRIP);
+            //gl.Vertex(5, 0, 0);
+            //gl.Vertex(mousePos.x, mousePos.y, 0);
+            //gl.End();
+
+            //gl.Color(0.0f, 0.0f, 1.0f);
+            //gl.LineWidth(5);
+            //gl.Begin(OpenGL.GL_LINE_STRIP);
+            //gl.Vertex(6, 5, 4);
+            //gl.Vertex(mousePos.x, mousePos.y, 0);
+            //gl.End();
+
+            //gl.Color(0.0f, 0.0f, 1.0f);
+            //gl.LineWidth(5);
+            //gl.Begin(OpenGL.GL_LINE_STRIP);
+            //gl.Vertex(0, 0, 0);
+            //gl.Vertex(mousePos.x, mousePos.y, 0);
+            //gl.End();
+
+
+            //if (Keyboard.IsKeyDown(Key.W))
+            //{
+
+            //    b.x += 1;
+
+
+            //}
+
+            //if (Keyboard.IsKeyDown(Key.A))
+            //{
+
+            //    b.x += -1;
+
+
+            //}
+
+            //if (Keyboard.IsKeyDown(Key.S))
+            //{
+
+            //    b.y += 1;
+
+
+            //}
+
+            //if (Keyboard.IsKeyDown(Key.D))
+            //{
+
+            //    b.y += -1;
+
+
+            //}
+
+
+
+            //gl.DrawText(0, 1, 0, 1, 1, "Arial", 15, "myVector magnitude is:" + myVector.GetMagnitude());
+
+            //myCube.Draw(gl);
+            //myCube.Position += velocity * speed;
+
+            //if (myCube.Position.x >= 30.0f)
+            //{
+            //    velocity.x = -1;
+              
+            //}
+
+            //if (myCube.Position.x <= -30.0f)
+            //{
+            //    velocity.x = 1;
+              
+            //}
+            //if (myCube.Position.y >= 20.0f)
+            //{
+            //    velocity.y = -1;
+                
+            //}
+
+            //if (myCube.Position.y <= -20.0f)
+            //{
+            //    velocity.y = 1;
+                
+            //}
 
 
             //CubeMesh myCube = new CubeMesh();
@@ -372,5 +426,24 @@ namespace aplimat_labs
             gl.DrawText(x, y, 1, 1, 1, "Arial", 12, text);
         }
         #endregion
+
+        private void OpenGLControl_MouseMove(object sender, MouseEventArgs e)
+        {
+
+            mousePos = new Vector3(e.GetPosition(this).X,
+            e.GetPosition(this).Y,0);
+
+            mousePos.x = (float)mousePos.x - (float) Width /2.0f;
+            mousePos.y = (float)mousePos.y - (float)Height / 2.0f;
+            mousePos.y = -mousePos.y;
+
+
+            Console.WriteLine("Mouse x:" + mousePos.x + "y: " + mousePos.y);
+
+
+
+
+
+        }
     }
 }
